@@ -108,7 +108,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://marniewu.github.io/2024/10/23/hello-world/" data-id="cm2m3vdul0000xz161fnr9mt3" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://marniewu.github.io/2024/10/23/hello-world/" data-id="cm2mknlu40000bq16b1v3frvu" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -398,11 +398,17 @@
 
 <h4 id="backtrace-栈展开"><a href="#backtrace-栈展开" class="headerlink" title="backtrace 栈展开"></a>backtrace 栈展开</h4><p>默认程序执行调用栈输出是开启 <code>--debug</code> 的时候才会展示，可以通过 <code>RUST_BACKTRACE=1 cargo run</code> 来手动开启调用栈回溯。</p>
 <p>栈展开也称栈回溯，包含了函数调用的顺序，按照逆序排列：最近调用的函数在列表最上方。</p>
-<h6 id="unwrap-方法"><a href="#unwrap-方法" class="headerlink" title="unwrap 方法"></a><code>unwrap</code> 方法</h6><ul>
+<h4 id="unwrap-方法"><a href="#unwrap-方法" class="headerlink" title="unwrap 方法"></a><code>unwrap</code> 方法</h4><ul>
 <li><code>Option</code> : 有值的时候会取值，没值的时候会调用 <code>panic!</code></li>
 <li><code>Result</code> : <code>Ok</code> 会返回 <code>Ok</code> 中的值，<code>Err</code> 会为我们调用 <code>panic!</code></li>
 </ul>
-<h4 id="传播错误"><a href="#传播错误" class="headerlink" title="传播错误"></a>传播错误</h4><h5 id="Option-和-Result-的互转"><a href="#Option-和-Result-的互转" class="headerlink" title="Option 和 Result 的互转"></a>Option 和 Result 的互转</h5><p>Result 有两个结果 <code>Ok</code> 和 <code>Err</code>，Option 包含 <code>Some</code> 和 <code>None</code></p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">first</span>(&amp;arr).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;The first element is &#123;&#125;&quot;</span>, a);</span><br></pre></td></tr></table></figure>
+
+<h4 id="expect-方法"><a href="#expect-方法" class="headerlink" title="expect 方法"></a><code>expect</code> 方法</h4><p>用于设置预期的 panic 错误文案</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">file</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">expect</span>(<span class="string">&quot;Failed to open hello.txt&quot;</span>);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, file);</span><br></pre></td></tr></table></figure>
+
+<h4 id="传播错误"><a href="#传播错误" class="headerlink" title="传播错误"></a>传播错误</h4><p><code>unwrap</code> 方法在遇到错误情况下都会直接调用 <code>panic!</code> 从而会直接终止程序的进行，但很多情况下我们遇到的都是预期内的错误情况，并不需要终止，只需要将错误向上传播，这时我们就不用使用 <code>unwrap</code> 方法。取而代之，通常使用 <code>?</code> 链式调用传播错误，它的功能是问号前的表达式执行结果成功则继续向后执行，若结果失败或者说错误，则截停执行逻辑到当前表达式为止并将错误返回，此时如果前一个表达式设置了错误 callback 等类似的处理，就能触发相应的逻辑。</p>
+<h5 id="Option-和-Result-的互转"><a href="#Option-和-Result-的互转" class="headerlink" title="Option 和 Result 的互转"></a>Option 和 Result 的互转</h5><p>Result 有两个结果 <code>Ok</code> 和 <code>Err</code>，Option 包含 <code>Some</code> 和 <code>None</code></p>
 <ul>
 <li><p>Result 转 Option，转换即将 <code>ok</code> 和 <code>err</code> 都转为 <code>Some</code></p>
 <ul>
@@ -412,6 +418,10 @@
 </li>
 </ul>
 </li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">err</span>();</span><br><span class="line"><span class="keyword">if</span> f.<span class="title function_ invoke__">is_some</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;no file&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> <span class="variable">f</span> = File::<span class="title function_ invoke__">open</span>(<span class="string">&quot;hello.txt&quot;</span>).<span class="title function_ invoke__">ok</span>();</span><br><span class="line"><span class="keyword">if</span> f.<span class="title function_ invoke__">is_none</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;no file&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li><p>Option 转 Result</p>
 <ul>
 <li><code>ok_or()</code></li>
@@ -422,7 +432,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://marniewu.github.io/2024/09/28/rust-basic/" data-id="cm2m3vdup0001xz160mqmf2rd" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://marniewu.github.io/2024/09/28/rust-basic/" data-id="cm2mknlu80001bq16dowug4g0" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

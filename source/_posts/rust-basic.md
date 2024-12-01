@@ -1,5 +1,6 @@
 ---
 title: Rust Basic
+date: 2024-10-23
 ---
 
 ## 入门 Getting Started

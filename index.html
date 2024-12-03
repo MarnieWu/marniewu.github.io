@@ -83,7 +83,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/12/02/%E6%B3%9B%E5%9E%8B/">泛型</a>
+      <a class="p-name article-title" href="/2024/12/02/%E6%B3%9B%E5%9E%8B/">泛型 Generics</a>
     </h1>
   
 
@@ -91,7 +91,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="泛型-Generics"><a href="#泛型-Generics" class="headerlink" title="泛型 Generics"></a>泛型 Generics</h2><h3 id="函数中使用泛型"><a href="#函数中使用泛型" class="headerlink" title="函数中使用泛型"></a>函数中使用泛型</h3><p>泛型是实现让一个功能函数支持不同类型的手段，我们称之为多态。在不支持泛型时，我们可能会写出如下代码：</p>
+        <h2 id="函数中使用泛型"><a href="#函数中使用泛型" class="headerlink" title="函数中使用泛型"></a>函数中使用泛型</h2><p>泛型是实现让一个功能函数支持不同类型的手段，我们称之为多态。在不支持泛型时，我们可能会写出如下代码：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">add_i32</span>(a: <span class="type">i32</span>, b: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">add_f64</span>(a: <span class="type">f64</span>, b: <span class="type">f64</span>) <span class="punctuation">-&gt;</span> <span class="type">f64</span> &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">add_i8</span>(a: <span class="type">i8</span>, b: <span class="type">i8</span>) <span class="punctuation">-&gt;</span> <span class="type">i8</span> &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -115,7 +115,7 @@
 
 <p>运行后结果如下：</p>
 <p><img src="/../images/%E6%B3%9B%E5%9E%8B/image-20241203223430429.png" alt="image-20241203223430429"></p>
-<h3 id="结构体中使用泛型"><a href="#结构体中使用泛型" class="headerlink" title="结构体中使用泛型"></a>结构体中使用泛型</h3><p>基于上面泛型的理解，我们直接看声明：</p>
+<h2 id="结构体中使用泛型"><a href="#结构体中使用泛型" class="headerlink" title="结构体中使用泛型"></a>结构体中使用泛型</h2><p>基于上面泛型的理解，我们直接看声明：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>&lt;T&gt; &#123;</span><br><span class="line">  x: T,</span><br><span class="line">  y: T,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上述类型声明表示，结构体 Point 的 fields 都是同一个类型的</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p1</span> = Point &#123; x: <span class="number">1</span>, y: <span class="number">2</span> &#125;;  <span class="comment">// Point&lt;i32&gt;</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">p2</span> = Point &#123; x: <span class="number">1.0</span>, y: <span class="number">2.0</span> &#125;;  <span class="comment">// Point&lt;f64&gt;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -125,11 +125,11 @@
 
 
 
-<h3 id="枚举中使用泛型"><a href="#枚举中使用泛型" class="headerlink" title="枚举中使用泛型"></a>枚举中使用泛型</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Option</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(T),</span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Result</span>&lt;T, E&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(T),</span><br><span class="line">    <span class="title function_ invoke__">Err</span>(E),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="枚举中使用泛型"><a href="#枚举中使用泛型" class="headerlink" title="枚举中使用泛型"></a>枚举中使用泛型</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Option</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(T),</span><br><span class="line">    <span class="literal">None</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Result</span>&lt;T, E&gt; &#123;</span><br><span class="line">    <span class="title function_ invoke__">Ok</span>(T),</span><br><span class="line">    <span class="title function_ invoke__">Err</span>(E),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h3 id="方法中使用泛型"><a href="#方法中使用泛型" class="headerlink" title="方法中使用泛型"></a>方法中使用泛型</h3><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>&lt;T, U&gt; &#123;</span><br><span class="line">    x: T,</span><br><span class="line">    y: U,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里 Point&lt;T, U&gt; 被视为一种结构体类型，所以在实现其方法时，</span></span><br><span class="line"><span class="comment">// 也需要通过 impl&lt;T, U&gt; 提前声明泛型参数列表</span></span><br><span class="line"><span class="keyword">impl</span>&lt;T, U&gt; Point&lt;T, U&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">x</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;T &#123;</span><br><span class="line">        &amp;<span class="keyword">self</span>.x</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="方法中使用泛型"><a href="#方法中使用泛型" class="headerlink" title="方法中使用泛型"></a>方法中使用泛型</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>&lt;T, U&gt; &#123;</span><br><span class="line">    x: T,</span><br><span class="line">    y: U,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里 Point&lt;T, U&gt; 被视为一种结构体类型，所以在实现其方法时，</span></span><br><span class="line"><span class="comment">// 也需要通过 impl&lt;T, U&gt; 提前声明泛型参数列表</span></span><br><span class="line"><span class="keyword">impl</span>&lt;T, U&gt; Point&lt;T, U&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">x</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;T &#123;</span><br><span class="line">        &amp;<span class="keyword">self</span>.x</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -140,19 +140,19 @@
 
 <p>运行结果，如下：</p>
 <p><img src="/../images/%E6%B3%9B%E5%9E%8B/image-20241204005147126.png" alt="image-20241204005147126"></p>
-<h3 id="const-泛型"><a href="#const-泛型" class="headerlink" title="const 泛型"></a>const 泛型</h3><p>意思是 <strong>常量的泛型</strong>，在诸如当我们只希望控制参数类型为一个整数 i32 数组，但数组长度不需要固定的情况可以使用，看具体例子：</p>
+<h2 id="const-泛型"><a href="#const-泛型" class="headerlink" title="const 泛型"></a>const 泛型</h2><p>意思是 <strong>常量的泛型</strong>，在诸如当我们只希望控制参数类型为一个整数 i32 数组，但数组长度不需要固定的情况可以使用，看具体例子：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// usize 表示索引类型</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">display_array</span>&lt;<span class="keyword">const</span> N: <span class="type">usize</span>&gt;(list: &amp;[<span class="type">i32</span>; N]) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, list);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 打印一个数组</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a1</span> = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">    <span class="title function_ invoke__">display_array</span>(&amp;a1);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a2</span> = [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>];</span><br><span class="line">    <span class="title function_ invoke__">display_array</span>(&amp;a2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 <p>运行结果，如下：</p>
 <p><img src="/../images/%E6%B3%9B%E5%9E%8B/image-20241204011012376.png" alt="image-20241204011012376"></p>
-<h3 id="泛型代码的性能"><a href="#泛型代码的性能" class="headerlink" title="泛型代码的性能"></a>泛型代码的性能</h3><p>使用泛型给开发者带来了很多便利，在开发效率上无疑是提效的。而泛型代码虽然输入是一种模式，但是经由 Rust 编译器，实际会被翻译成 n 种，所有可支持的情况都会有一份代码，这个翻译的过程被称为 <strong>单态化</strong>，即声明时是 <strong>多态的</strong>，编译后即变为 <strong>单态</strong>。同时也就意味着，在运行时其实是不会因为泛型带来任何增加的开销的，因为编译期间都生成好了，对应的调用代码调用的也就是那一份翻译后的代码。所有的开销都是在编译期间产生的（编译时间及编译后文件大小会有所增加），运行期间无损，仍然保持高效。</p>
+<h2 id="泛型代码的性能"><a href="#泛型代码的性能" class="headerlink" title="泛型代码的性能"></a>泛型代码的性能</h2><p>使用泛型给开发者带来了很多便利，在开发效率上无疑是提效的。而泛型代码虽然输入是一种模式，但是经由 Rust 编译器，实际会被翻译成 n 种，所有可支持的情况都会有一份代码，这个翻译的过程被称为 <strong>单态化</strong>，即声明时是 <strong>多态的</strong>，编译后即变为 <strong>单态</strong>。同时也就意味着，在运行时其实是不会因为泛型带来任何增加的开销的，因为编译期间都生成好了，对应的调用代码调用的也就是那一份翻译后的代码。所有的开销都是在编译期间产生的（编译时间及编译后文件大小会有所增加），运行期间无损，仍然保持高效。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/02/%E6%B3%9B%E5%9E%8B/" data-id="cm48q7f3p0002yw16cpvaev7j" data-title="泛型" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/02/%E6%B3%9B%E5%9E%8B/" data-id="cm48q90ct0003gr16hlxxh21s" data-title="泛型 Generics" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -210,7 +210,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm48q7f3l0000yw16eir39q30" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm48q90cp0000gr169d1q93s5" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -363,7 +363,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm48q7f3p0003yw161ehh9esh" data-title="Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm48q90cs0002gr163dri1nfc" data-title="Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -689,7 +689,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm48q7f3o0001yw163n76e1ov" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm48q90cr0001gr166u30agee" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -732,7 +732,7 @@
       <ul>
         
           <li>
-            <a href="/2024/12/02/%E6%B3%9B%E5%9E%8B/">泛型</a>
+            <a href="/2024/12/02/%E6%B3%9B%E5%9E%8B/">泛型 Generics</a>
           </li>
         
           <li>

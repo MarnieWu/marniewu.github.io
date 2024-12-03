@@ -509,7 +509,7 @@ let point_bottom_right = Point { x: 1.8, y: 0.2 };
 let rect = Rectangle { top_left: point_top_left, bottom_right: point_bottom_right };
 ```
 
-######
+
 
 结构体更新语法：我们可以用 `..structA` 给 `structB` 进行更新，在 `structB` 中没有显示声明的字段，都会从 `structA` 中取 。
 

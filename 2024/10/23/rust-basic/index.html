@@ -18,7 +18,7 @@
 <meta property="og:image" content="https://marniewu.github.io/images/image-20241005203754332.png">
 <meta property="og:image" content="https://marniewu.github.io/images/image-20241010163617345.png">
 <meta property="article:published_time" content="2024-10-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-11-10T17:17:59.934Z">
+<meta property="article:modified_time" content="2024-12-03T13:51:24.266Z">
 <meta property="article:author" content="Marnie Wu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://marniewu.github.io/images/image-20241010155641561.png">
@@ -235,7 +235,9 @@
 </ul>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">me</span> = Person &#123; name: <span class="string">&quot;Marnie&quot;</span>.<span class="title function_ invoke__">to_string</span>(), age: <span class="number">10</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A unit struct</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Unit</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// A tuple struct</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Pair</span>(<span class="type">i32</span>, <span class="type">f32</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">Pair</span>(<span class="number">8</span>, <span class="number">0.2</span>);</span><br><span class="line"><span class="title function_ invoke__">println</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, a.<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// A struct with two fields</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> &#123;</span><br><span class="line">    x: <span class="type">f32</span>,</span><br><span class="line">    y: <span class="type">f32</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">p</span> = Point &#123; x: <span class="number">0.5</span>, y: <span class="number">1.2</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Structs can be reused as fields of another struct</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="comment">// A rectangle can be specified by where the top left and bottom right</span></span><br><span class="line">    <span class="comment">// corners are in space.</span></span><br><span class="line">    top_left: Point,</span><br><span class="line">    bottom_right: Point,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">point_top_left</span> = Point &#123; x: <span class="number">0.5</span>, y: <span class="number">1.2</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">point_bottom_right</span> = Point &#123; x: <span class="number">1.8</span>, y: <span class="number">0.2</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">rect</span> = Rectangle &#123; top_left: point_top_left, bottom_right: point_bottom_right &#125;;</span><br></pre></td></tr></table></figure>
 
-<h6 id=""><a href="#" class="headerlink" title=""></a></h6><p>结构体更新语法：我们可以用 <code>..structA</code> 给 <code>structB</code> 进行更新，在 <code>structB</code> 中没有显示声明的字段，都会从 <code>structA</code> 中取 。</p>
+
+
+<p>结构体更新语法：我们可以用 <code>..structA</code> 给 <code>structB</code> 进行更新，在 <code>structB</code> 中没有显示声明的字段，都会从 <code>structA</code> 中取 。</p>
 <p>但是注意了📢，在 Rust 中严格管控着数据所有权（ownership），所以当针对没有 copy 特性的字段被用来赋值之后，该字段的数据所有权即会发生转移。只要有一个字段发生了所有权变化，那么整个结构体就已经是不完整的了，该结构体本身就不能再被转移，即无法整个结构体直接使用。</p>
 <p>没有 copy 特性（trait）指的就是那些存在 heap 上的数据，在 stack-side 存储的是其内存块的 pointer，赋值操作即原指针失效，内存地址转移到新指针上。</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">user1</span> = User &#123;</span><br><span class="line">     active: <span class="literal">true</span>,</span><br><span class="line">     username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;example1&quot;</span>),</span><br><span class="line">     email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;example1@examples.com&quot;</span>),</span><br><span class="line">     sign_in_count: <span class="number">1</span>,</span><br><span class="line"> &#125;;</span><br><span class="line"> <span class="keyword">let</span> <span class="variable">user2</span> = User &#123;</span><br><span class="line">     email: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;example2@examples.com&quot;</span>),</span><br><span class="line">     ..user1</span><br><span class="line"> &#125;;</span><br></pre></td></tr></table></figure>
@@ -388,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm462is510002bm162ct084fn" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm48q2kol0001gi161ll803f5" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -430,7 +432,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li></ul>
     </div>
   </div>
 
@@ -441,6 +443,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2024/12/02/%E6%B3%9B%E5%9E%8B/">泛型</a>
+          </li>
         
           <li>
             <a href="/2024/11/01/first-project/">First Project</a>

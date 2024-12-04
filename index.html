@@ -125,7 +125,7 @@
 <li>函数某个入参的生命周期</li>
 <li>函数内某个新建变量的生命周期</li>
 </ul>
-<p>对于第一种情况，如果只有一个入参，那也就不需要生命周期标注。⚠️ <strong>生命周期标注一定是出现在拥有多个生命周期的前提下的！</strong> 而第二种情况，这是明显的悬垂指针，新建变量的生命周期仅在函数内部，函数外是无法对其进行引用的，直接会被编译器拒绝。</p>
+<p>对于第一种情况，如果只有一个入参，那也就不需要生命周期标注（✨ <strong>生命周期标注通常是出现在拥有多个生命周期的情况下的</strong>）。 而第二种情况，这是明显的悬垂指针，新建变量的生命周期仅在函数内部，函数外是无法对其进行引用的，直接会被编译器拒绝。</p>
 <p>这种<strong>无需手动</strong>进行生命周期标注的能力被称为 “<strong>生命周期消除（Lifetime Elision）</strong>”，是编译器为了简化开发者的使用而自动运用的。具体的，会自动使用生命消除能力需要符合三条具体规则，可以参考一下截图要求：</p>
 <p>（一般情况，只要编译器能通过编译，则证明无需手动进行生命周期标注）</p>
 <p><img src="/../images/lifetime/image-20241204233227155.png" alt="image-20241204233227155"></p>
@@ -174,7 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm4a7wqel0004gg16hj1mf83u" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm4a809aj0001du166ug3dmhc" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -253,7 +253,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/02/generics/" data-id="cm4a7wqek0002gg16b1oya1eq" data-title="泛型 Generics" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/02/generics/" data-id="cm4a809ak0002du16atq27sy2" data-title="泛型 Generics" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -311,7 +311,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm4a7wqek0003gg16997ge5vm" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm4a809ag0000du161g8u6ndv" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -464,7 +464,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm4a7wqeg0000gg168d911e7p" data-title="Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm4a809ak0003du16cmeuaf9j" data-title="Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -790,7 +790,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm4a7wqej0001gg161s7dheed" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm4a809ak0004du16fte583zo" data-title="Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

@@ -18,8 +18,9 @@
 <meta property="og:image" content="https://marniewu.github.io/images/lifetime/image-20241204233227155.png">
 <meta property="og:image" content="https://marniewu.github.io/images/lifetime/image-20241205021400512.png">
 <meta property="og:image" content="https://marniewu.github.io/images/lifetime/image-20241205022146026.png">
+<meta property="og:image" content="https://marniewu.github.io/images/lifetime/image-20241205113302099.png">
 <meta property="article:published_time" content="2024-12-04T10:16:46.000Z">
-<meta property="article:modified_time" content="2024-12-04T18:27:07.061Z">
+<meta property="article:modified_time" content="2024-12-05T03:33:13.223Z">
 <meta property="article:author" content="Marnie Wu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://marniewu.github.io/images/lifetime/image-20241204203646992.png">
@@ -178,11 +179,18 @@
 
 <h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><p>巩固上面的理解，请修复下面的函数声明：</p>
 <p><img src="/../images/lifetime/image-20241205022146026.png" alt="image-20241205022146026"></p>
+<p>改动代码如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">test_lifetime_mut</span>() &#123;</span><br><span class="line">  <span class="keyword">fn</span> <span class="title function_">insert_value</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>: <span class="symbol">&#x27;a</span>&gt;(my_vec: &amp;<span class="keyword">mut</span> <span class="type">Vec</span>&lt;&amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>&gt;, value: &amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>) &#123;</span><br><span class="line">    <span class="comment">// ✅ 结论：my_vec 拥有对 value 的引用 =&gt; &#x27;b: &#x27;a 为函数添加生命周期约束通过编译器检查</span></span><br><span class="line">    my_vec.<span class="title function_ invoke__">push</span>(value);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="comment">// ✅ 根据上述结论，y 必须早于 x 定义</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">y</span> = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">my_vec</span> = <span class="built_in">vec!</span>[&amp;x];</span><br><span class="line">    <span class="title function_ invoke__">insert_value</span>(&amp;<span class="keyword">mut</span> my_vec, &amp;y);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;my_vec:?&#125;&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>成功运行！</p>
+<p><img src="/../images/lifetime/image-20241205113302099.png" alt="image-20241205113302099"></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm4a809aj0001du166ug3dmhc" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm4ark0s60003uu16hynv869k" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

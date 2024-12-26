@@ -1,5 +1,5 @@
 ---
-title: Rust Basic
+title: Rust 基础 Rust Basic
 date: 2024-10-23
 ---
 

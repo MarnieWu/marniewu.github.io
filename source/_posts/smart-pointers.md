@@ -1,11 +1,9 @@
 ---
-title: Smart Pointers
+title: 智能指针 Smart Pointers
 date: 2024-10-24 15:41:13
 tags: 
 
 ---
-
-## 智能指针 Smart Pointers
 
 首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。
 

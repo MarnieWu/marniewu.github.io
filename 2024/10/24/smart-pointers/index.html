@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   
   
-  <title>Smart Pointers | Marnie Wu</title>
+  <title>智能指针 Smart Pointers | Marnie Wu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="智能指针 Smart Pointers首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。 在 Rust 中最常见的指针就是引用（reference），引用变量向被它引用的变量借用（borrow）它指向的数据，这意味着它们自身是没有对该数据的所有权（ownership）的。 引用只包含一个指向被引用变量的指针，除此之外，引">
+  <meta name="description" content="首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。 在 Rust 中最常见的指针就是引用（reference），引用变量向被它引用的变量借用（borrow）它指向的数据，这意味着它们自身是没有对该数据的所有权（ownership）的。 引用只包含一个指向被引用变量的指针，除此之外，引用就再无其他功能了。而 Rust 是静">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Smart Pointers">
+<meta property="og:title" content="智能指针 Smart Pointers">
 <meta property="og:url" content="https://marniewu.github.io/2024/10/24/smart-pointers/index.html">
 <meta property="og:site_name" content="Marnie Wu">
-<meta property="og:description" content="智能指针 Smart Pointers首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。 在 Rust 中最常见的指针就是引用（reference），引用变量向被它引用的变量借用（borrow）它指向的数据，这意味着它们自身是没有对该数据的所有权（ownership）的。 引用只包含一个指向被引用变量的指针，除此之外，引">
+<meta property="og:description" content="首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。 在 Rust 中最常见的指针就是引用（reference），引用变量向被它引用的变量借用（borrow）它指向的数据，这意味着它们自身是没有对该数据的所有权（ownership）的。 引用只包含一个指向被引用变量的指针，除此之外，引用就再无其他功能了。而 Rust 是静">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://marniewu.github.io/images/image-20241031162223186.png">
 <meta property="og:image" content="https://marniewu.github.io/images/image-20241107133927309.png">
@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://marniewu.github.io/images/smart-pointers/home_work_2.png">
 <meta property="og:image" content="https://marniewu.github.io/images/smart-pointers/home_work_2_result.png">
 <meta property="article:published_time" content="2024-10-24T07:41:13.000Z">
-<meta property="article:modified_time" content="2024-12-01T20:34:05.606Z">
+<meta property="article:modified_time" content="2024-12-05T03:37:23.487Z">
 <meta property="article:author" content="Marnie Wu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://marniewu.github.io/images/image-20241031162223186.png">
@@ -95,7 +95,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Smart Pointers
+      智能指针 Smart Pointers
     </h1>
   
 
@@ -103,7 +103,7 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h2 id="智能指针-Smart-Pointers"><a href="#智能指针-Smart-Pointers" class="headerlink" title="智能指针 Smart Pointers"></a>智能指针 Smart Pointers</h2><p>首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。</p>
+        <p>首先理解，指针是什么？指针是一个存储了内存地址（memory address）的变量，该内存地址引用或者指向了内存中另外的数据。</p>
 <p>在 Rust 中最常见的指针就是引用（reference），引用变量向被它引用的变量借用（borrow）它指向的数据，这意味着它们自身是没有对该数据的所有权（ownership）的。</p>
 <p>引用只包含一个指向被引用变量的指针，除此之外，引用就再无其他功能了。而 Rust 是静态编译语言，在编译期间就需要确定变量数据的大小以及何时释放。所以设计了智能指针，在普通指针的基础上，还包含了当前长度（len）、最大长度（capacity）等字段，这些都是用来确定指针类型指向的那块数据所需的内存 size 的字段。像是我们之前用过的 <code>String</code> 、<code>Vec</code> 都是智能指针数据类型。</p>
 <p>不同于普通指针，智能指针是具有所有权的指针，且实现了 Deref（解引用）和 Drop（清理）两个 trait（特征），这使得他们可以像指针一样解引用并在离开作用域是自动清理资源。这是对智能指针是什么的一个大致概括，具体功能可以通过后面更多的实际例子去理解更为自然。</p>
@@ -222,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm4ark0s70004uu16dxj13oo8" data-title="Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm55qqtze0003hu16cccec3db" data-title="智能指针 Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -244,7 +244,7 @@
   
     <a href="/2024/10/23/rust-basic/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Rust Basic</div>
+      <div class="article-nav-title">Rust 基础 Rust Basic</div>
     </a>
   
 </nav>
@@ -282,6 +282,10 @@
       <ul>
         
           <li>
+            <a href="/2024/12/05/smart-pointers-2/">智能指针2 Smart Pointers 2</a>
+          </li>
+        
+          <li>
             <a href="/2024/12/04/lifetime/">生命周期 Lifetime</a>
           </li>
         
@@ -294,11 +298,7 @@
           </li>
         
           <li>
-            <a href="/2024/10/24/smart-pointers/">Smart Pointers</a>
-          </li>
-        
-          <li>
-            <a href="/2024/10/23/rust-basic/">Rust Basic</a>
+            <a href="/2024/10/24/smart-pointers/">智能指针 Smart Pointers</a>
           </li>
         
       </ul>

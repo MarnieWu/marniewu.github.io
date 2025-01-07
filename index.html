@@ -69,6 +69,72 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-trait" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/01/05/trait/" class="article-date">
+  <time class="dt-published" datetime="2025-01-05T14:56:40.000Z" itemprop="datePublished">2025-01-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/01/05/trait/">特征 Trait</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h4 id="孤儿规则"><a href="#孤儿规则" class="headerlink" title="孤儿规则"></a>孤儿规则</h4><p><code>impl T for A</code> : 为 <code>A</code> 实现特征 <code>T</code> , 那么 <code>A</code> 或者 <code>T</code> 至少有一个是在当前作用域中定义的。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span> &#123;</span><br><span class="line">  <span class="comment">// ❌ Clone 和 String 都是标准库中定义的，而不是当前 crate 中定义的，无法使用 impl 关键字</span></span><br><span class="line">  <span class="keyword">impl</span> <span class="title class_">Clone</span> <span class="keyword">for</span> <span class="title class_">String</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/trait/image-20250107215613766.png" alt="image-20250107215613766"></p>
+<h4 id="签名-signature-和重载-override"><a href="#签名-signature-和重载-override" class="headerlink" title="签名 signature 和重载 override"></a>签名 signature 和重载 override</h4><p>trait 中，可以只定义签名，也可以定义方法的默认行为。在具体实现中定义的方法会重载特征中默认的方法。</p>
+<p>当我们在调用某个方法时，会先找自身结构体中是否有对应实现，若没有则向上🔼找特征中的该方法。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Post 结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    author: <span class="type">String</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Weibo 结构体</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    username: <span class="type">String</span>,</span><br><span class="line">    content: <span class="type">String</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Summary 特征</span></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">Summary</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize_author</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span>;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;Read more from &#123;&#125;...&quot;</span>, <span class="keyword">self</span>.<span class="title function_ invoke__">summarize_author</span>())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为 Post 实现 Summary 特征</span></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Post</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize_author</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.author.<span class="title function_ invoke__">clone</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// fn summarize(&amp;self) -&gt; String &#123;</span></span><br><span class="line">    <span class="comment">//     format!(&quot;文章&#123;&#125;，作者是&#123;&#125;&quot;, self.name, self.author)</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为 Weibo 实现 Summary 特征</span></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Summary</span> <span class="keyword">for</span> <span class="title class_">Weibo</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize_author</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;@&#123;&#125;&quot;</span>, <span class="keyword">self</span>.username)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">summarize</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;发表了微博&#123;&#125;&quot;</span>, <span class="keyword">self</span>.username, <span class="keyword">self</span>.content)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">post</span> = Post &#123;</span><br><span class="line">        name: <span class="string">&quot;trait_study&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">        author: <span class="string">&quot;marnie&quot;</span>.<span class="title function_ invoke__">to_string</span>(),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">// Post 中只有 summarize_author 这一个方法的实现</span></span><br><span class="line">  	<span class="comment">// 所以当调用 summarize 方法时会找到其原特征中的对应方法</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, post.<span class="title function_ invoke__">summarize_author</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, post.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">weibo</span> = Weibo &#123;</span><br><span class="line">        username: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;marnie&quot;</span>),</span><br><span class="line">        content: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;正在学习 Trait 特征&quot;</span>),</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">  	<span class="comment">// 因为 Weibo 中分别对以下两个方法进行了重写，会覆盖特征中的默认方法</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, weibo.<span class="title function_ invoke__">summarize_author</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, weibo.<span class="title function_ invoke__">summarize</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/trait/image-20250107215318592.png" alt="image-20250107215318592"></p>
+<h4 id="泛型的使用"><a href="#泛型的使用" class="headerlink" title="泛型的使用"></a>泛型的使用</h4><h5 id="在特征中使用泛型：trait-AAA-使用到传入的泛型的地方，必须手动标注类型"><a href="#在特征中使用泛型：trait-AAA-使用到传入的泛型的地方，必须手动标注类型" class="headerlink" title="在特征中使用泛型：trait AAA&lt;T&gt; 使用到传入的泛型的地方，必须手动标注类型"></a>在特征中使用泛型：<code>trait AAA&lt;T&gt;</code> 使用到传入的泛型的地方，必须手动标注类型</h5><p>特征接收的泛型是给<strong>特征方法</strong>所使用的，在具体实现了特征的结构体调用方法时，需要手动的标注泛型的实际类型，让编译器知道调用哪个类型实现的方法</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 特征 Convert 用于转换类型</span></span><br><span class="line"><span class="keyword">trait</span> <span class="title class_">Convert</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们定义一个结构体来实现 Convert 特征</span></span><br><span class="line"><span class="comment">// 元组结构体（tuple）</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">MyInt</span>(<span class="type">i32</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对 MyInt 实现了两种类型的特征</span></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Convert</span>&lt;<span class="type">i32</span>&gt; <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span> <span class="keyword">as</span> <span class="type">i32</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Convert</span>&lt;<span class="type">String</span>&gt; <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">convert</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="number">0</span>.<span class="title function_ invoke__">to_string</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">my_int</span> = <span class="title function_ invoke__">MyInt</span>(<span class="number">5</span>);</span><br><span class="line">    <span class="comment">// 必须手动加上类型标注</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">output</span>: <span class="type">i32</span> = my_int.<span class="title function_ invoke__">convert</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, output);</span><br><span class="line">    <span class="comment">// 必须手动加上类型标注</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">output</span>: <span class="type">String</span> = my_int.<span class="title function_ invoke__">convert</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, output);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="在方法中使用泛型：impl-AAA-for-BBB-impl-for-BBB"><a href="#在方法中使用泛型：impl-AAA-for-BBB-impl-for-BBB" class="headerlink" title="在方法中使用泛型：impl&lt;T&gt; AAA for BBB ==&gt; impl&lt;T&gt; for BBB"></a>在方法中使用泛型：<code>impl&lt;T&gt; AAA for BBB ==&gt; impl&lt;T&gt; for BBB</code></h5><p>在方法中使用泛型指的是 —— 当我们某个特征方法需要使用泛型，它本质上就是将指定类型传给方法，和特征、和结构体其实无关，使用上和在结构体中使用泛型是一个方式。</p>
+<p>一种更疯狂的用法，该泛型既是方法需要用的也是特征要用的，会是下面定义的样子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span>&lt;T&gt; Convert&lt;T&gt; <span class="keyword">for</span> <span class="title class_">MyInt</span> &#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>当 trait 中加入了泛型，让我们拥有了针对不同场景进行不同类型实现的能力。但如果我们想控制 —— 特征的实现是可以支持多种类型的，但只能有一种类型的具体实现，这个时候泛型就做不了这样的约束了，Rust 针对需要这种约束的场景提供了一个新的方式 —— 关联类型。</p>
+<h5 id="关联类型"><a href="#关联类型" class="headerlink" title="关联类型"></a>关联类型</h5><p>关联类型是在签名时不固定类型，在实现中指定需关联的类型，且不能有多次指定（即多种实现），编译器会在第一次以后得实现上报错。</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="deletion">- trait Convert&lt;T&gt; &#123;</span></span><br><span class="line"><span class="deletion">-     fn convert(&amp;self) -&gt; T;</span></span><br><span class="line"><span class="deletion">- &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+ trait Convert &#123;</span></span><br><span class="line"><span class="addition">+     // 这是关联类型 Output</span></span><br><span class="line"><span class="addition">+     type Output;</span></span><br><span class="line"><span class="addition">+     // Self::Output 使用关联类型</span></span><br><span class="line"><span class="addition">+     fn convert(&amp;self) -&gt; Self::Output;</span></span><br><span class="line"><span class="addition">+ &#125;</span></span><br><span class="line"></span><br><span class="line">struct MyInt(i32);</span><br><span class="line"></span><br><span class="line"><span class="deletion">- impl Convert&lt;i32&gt; for MyInt &#123;</span></span><br><span class="line"><span class="deletion">-     fn convert(&amp;self) -&gt; i32 &#123;</span></span><br><span class="line"><span class="deletion">-         self.0 as i32</span></span><br><span class="line"><span class="deletion">-     &#125;</span></span><br><span class="line"><span class="deletion">- &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="deletion">- impl Convert&lt;String&gt; for MyInt &#123;</span></span><br><span class="line"><span class="deletion">-     fn convert(&amp;self) -&gt; String &#123;</span></span><br><span class="line"><span class="deletion">-         self.0.to_string()</span></span><br><span class="line"><span class="deletion">-     &#125;</span></span><br><span class="line"><span class="deletion">- &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="addition">+ impl Convert for MyInt &#123;</span></span><br><span class="line"><span class="addition">+     type Output = i32;</span></span><br><span class="line"><span class="addition">+     fn convert(&amp;self) -&gt; Self::Output &#123;</span></span><br><span class="line"><span class="addition">+         self.0</span></span><br><span class="line"><span class="addition">+     &#125;</span></span><br><span class="line"><span class="addition">+ &#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果关联了不止一个类型，就会得到下面的报错：</p>
+<p><img src="/../images/trait/image-20250108012151958.png" alt="image-20250108012151958"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://marniewu.github.io/2025/01/05/trait/" data-id="cm5mqp62f00033k16f15k57u5" data-title="特征 Trait" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-smart-pointers-2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2024/12/05/smart-pointers-2/" class="article-date">
@@ -137,7 +203,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/05/smart-pointers-2/" data-id="cm55qqtzf0005hu1648eh3k99" data-title="智能指针2 Smart Pointers 2" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/05/smart-pointers-2/" data-id="cm5mqp62f00043k16bh1s119d" data-title="智能指针2 Smart Pointers 2" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -261,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm55qqtze0002hu161n525vub" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/04/lifetime/" data-id="cm5mqp62f00023k1615ze4y2m" data-title="生命周期 Lifetime" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -340,7 +406,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/12/02/generics/" data-id="cm55qqtzd0001hu1634s31bsb" data-title="泛型 Generics" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/12/02/generics/" data-id="cm5mqp62e00013k1637odcn0x" data-title="泛型 Generics" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -398,7 +464,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm55qqtzb0000hu16hoyzcy4n" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/11/01/first-project/" data-id="cm5mqp62c00003k1681hp54hj" data-title="First Project" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -551,7 +617,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm55qqtze0003hu16cccec3db" data-title="智能指针 Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/24/smart-pointers/" data-id="cm5mqp62g00053k169gob5ig0" data-title="智能指针 Smart Pointers" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -877,7 +943,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm55qqtzf0004hu161ocv97sn" data-title="Rust 基础 Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="https://marniewu.github.io/2024/10/23/rust-basic/" data-id="cm5mqp62g00063k1643s124of" data-title="Rust 基础 Rust Basic" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -907,7 +973,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li></ul>
     </div>
   </div>
 
@@ -918,6 +984,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2025/01/05/trait/">特征 Trait</a>
+          </li>
         
           <li>
             <a href="/2024/12/05/smart-pointers-2/">智能指针2 Smart Pointers 2</a>
@@ -935,10 +1005,6 @@
             <a href="/2024/11/01/first-project/">First Project</a>
           </li>
         
-          <li>
-            <a href="/2024/10/24/smart-pointers/">智能指针 Smart Pointers</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -952,7 +1018,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2024 Marnie Wu<br>
+      &copy; 2025 Marnie Wu<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

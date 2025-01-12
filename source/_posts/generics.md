@@ -2,6 +2,7 @@
 title: 泛型 Generics
 date: 2024-12-02 21:12:41
 tags:
+    - generics
 ---
 
 ## 函数中使用泛型

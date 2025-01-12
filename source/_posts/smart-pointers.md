@@ -1,7 +1,8 @@
 ---
 title: 智能指针 Smart Pointers
 date: 2024-10-24 15:41:13
-tags: 
+tags:
+    - smart-pointers
 
 ---
 

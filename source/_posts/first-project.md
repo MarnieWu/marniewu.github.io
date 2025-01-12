@@ -1,7 +1,8 @@
 ---
 title: First Project
 date: 2024-11-01 16:06:44
-tags:
+tags: 
+   - setup
 ---
 
 ## Getting Started
@@ -26,8 +27,6 @@ avm install latest
 anchor --version
 ```
 
-
-
 ## Trouble Shooting
 
 1. `error: no such command: build-sbf`
@@ -37,6 +36,4 @@ anchor --version
    cargo build-sbf --force-tools-install
    ```
 
-   
-
-2. 
+2.
